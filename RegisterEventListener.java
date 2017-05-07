@@ -4,9 +4,10 @@ import java.sql.*;
 
 public class RegisterEventListener implements ActionListener {
     static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
-    static final String DB_URL = "jdbc:mysql://192.168.1.102/LIME";
-    static final String USER = ""; // TODO: Hidden the sensitive information
+    static final String DB_URL = "jdbc:mysql://IP/LIME";
+    static final String USER = "root"; // TODO: Hidden the sensitive information
     static final String PASS = "";
+    
     public void actionPerformed(ActionEvent e) {
         System.out.print("Register");
 
@@ -16,7 +17,6 @@ public class RegisterEventListener implements ActionListener {
         try{
             Class.forName("com.mysql.jdbc.Driver");
 
-            System.out.print("Connected database successfully...");
             conn = DriverManager.getConnection(DB_URL, USER, PASS);
 
             System.out.println("Connected database successfully...");
