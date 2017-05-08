@@ -1,14 +1,21 @@
+import java.awt.event.*;
+import java.awt.*;
 import javax.swing.*;
 
-public class MainWindow {
+public class MainWindow extends JFrame implements ActionListener{
 
     private JFrame mainWindow;
 
     public MainWindow() {
-        mainWindow = new JFrame("LIME");
-        mainWindow.setExtendedState(JFrame.MAXIMIZED_BOTH); // Full Screen Size
+        super("LIME");
+        setExtendedState(JFrame.MAXIMIZED_BOTH); // Full Screen Size
     }
-    public void show(){
-        mainWindow.setVisible(true);
+    
+    public void showup(){
+        setVisible(true);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
     }
 }

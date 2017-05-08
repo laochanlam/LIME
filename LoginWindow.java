@@ -36,6 +36,11 @@ public class LoginWindow extends JFrame implements ActionListener {
         add(registerButton);   
     }
 
+    public void showup(){
+        setVisible(true);
+    }
+
+    @Override
     public void actionPerformed(ActionEvent e) {
         String userName = userNameTextField.getText();
         String password = passwordTextField.getText();
@@ -67,6 +72,9 @@ public class LoginWindow extends JFrame implements ActionListener {
                 } else {
                     System.out.println("[Query] Success!");
                     JOptionPane.showMessageDialog(this, "Login Successful!", "Login", JOptionPane.INFORMATION_MESSAGE);
+                    MainWindow mainWindow = new MainWindow();
+                    mainWindow.showup(); 
+                    dispose();
                 }
                 
              // Expection Handling
