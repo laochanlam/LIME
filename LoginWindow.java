@@ -1,7 +1,8 @@
-import java.awt.*;
 import java.sql.*;
+import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.event.*;
 public class LoginWindow extends JFrame implements ActionListener {
     JButton loginButton;
     JButton registerButton;
@@ -32,17 +33,7 @@ public class LoginWindow extends JFrame implements ActionListener {
         add(passwordLabel);
         add(passwordTextField);
         add(loginButton);
-        add(registerButton);
-    
-        // Connect with DB
-
-        // TODO: MAKE EVERYTHING INTO ONE PANEL
-        // JPanel panel = new JPanel(new GridLayout());
-        // GridBagConstraints parameter = new GridBagConstraints();
-        // parameter.gridx = 100;
-        // parameter.gridy = 0;
-        // parameter.gridwidth = 100;
-        // parameter.gridheight = 100;                             
+        add(registerButton);   
     }
 
     public void actionPerformed(ActionEvent e) {
@@ -66,12 +57,19 @@ public class LoginWindow extends JFrame implements ActionListener {
 
                 statement = connection.createStatement();
 
+                // Find User From Database
                 String sql = "SELECT * FROM user WHERE name = '" + userName + "' AND password = '" + password + "'";
                 ResultSet rs = statement.executeQuery(sql);
-                if (!rs.next())
+
+                if (!rs.next()) {
                     System.out.println("[Query] Fail!");
-                else 
+                    JOptionPane.showMessageDialog(this, "Login Failed, Password or Username Incorrect!", "Login", JOptionPane.ERROR_MESSAGE);
+                } else {
                     System.out.println("[Query] Success!");
+                    JOptionPane.showMessageDialog(this, "Login Successful!", "Login", JOptionPane.INFORMATION_MESSAGE);
+                }
+                
+             // Expection Handling
             } catch (SQLException se) {
                 se.printStackTrace();
             } catch (Exception ee) {
@@ -84,17 +82,29 @@ public class LoginWindow extends JFrame implements ActionListener {
             System.out.println("[Register]");
 
             // Work with Database
-            try{
+            try {
                 Class.forName("com.mysql.jdbc.Driver");
                 connection = DriverManager.getConnection(DB_URL, USER, PASS);
                 System.out.println("Connected database successfully...");
 
                 statement = connection.createStatement();
+                
+                // Find User From Database
+                String sql = "SELECT * FROM user WHERE name = '" + userName + "'";
+                ResultSet rs = statement.executeQuery(sql);
 
-                String sql = "INSERT INTO user(name, password) " + "VALUES ('" + userName + "', '" + password + "')";
-                statement.executeUpdate(sql);
-                System.out.println("[Insert]"+ "Username: " + userName + " Password: " + password);
-
+                // If Non-exist
+                 if (!rs.next()) {
+                    sql = "INSERT INTO user(name, password) " + "VALUES ('" + userName + "', '" + password + "')";
+                    statement.executeUpdate(sql);
+                    System.out.println("[Insert]"+ "Username: " + userName + " Password: " + password);
+                    JOptionPane.showMessageDialog(this, "Registration Successful!", "Registration", JOptionPane.INFORMATION_MESSAGE);
+                 } else {
+                    System.out.println("[Error] User exists");
+                    JOptionPane.showMessageDialog(this, "Registration Failed, User Exists!", "Registration", JOptionPane.ERROR_MESSAGE);
+                 }
+            
+            // Expection Handling
             } catch (SQLException se) {
                 se.printStackTrace();
             } catch (Exception ee) {
