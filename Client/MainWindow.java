@@ -1,3 +1,5 @@
+package Client;
+
 import java.awt.event.*;
 import java.awt.*;
 import javax.swing.*;
@@ -11,11 +13,11 @@ public class MainWindow extends JFrame implements ActionListener{
         setExtendedState(JFrame.MAXIMIZED_BOTH); // Full Screen Size
         
         setLayout(null);
+        
         TextField textField = new TextField("New");
-        textField.setBounds(20, 650, 1000, 60);
+        textField.setBounds(20, 650, 1000, 50);
         textField.setVisible(true);
         this.add(textField);
-
 
         JLabel profileLabel = new JLabel(userInfo.getUserName());
         profileLabel.setBounds(20, 20, 1000, 50);
