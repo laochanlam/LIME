@@ -1,6 +1,6 @@
 public class DatabaseInfo {
     private static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
-    private static final String DB_URL = "jdbc:mysql://140.116.245.244/LIME";
+    private static final String DB_URL = "jdbc:mysql://140.116.245.244/LIME?useSSL=false";
     private static final String USER = "root";
     private static final String PASS = "~1qaz2wsx";
 

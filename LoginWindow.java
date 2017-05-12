@@ -42,8 +42,12 @@ public class LoginWindow extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+
         String userName = userNameTextField.getText();
         String password = passwordTextField.getText();
+        // For transforming to Mainwindow
+        User userInfo = new User(userName);
+
         DatabaseInfo databaseInfo = new DatabaseInfo();
         Connection connection = null;
         Statement statement = null;
@@ -66,13 +70,16 @@ public class LoginWindow extends JFrame implements ActionListener {
                 String sql = "SELECT * FROM user WHERE name = '" + userName + "' AND password = '" + password + "'";
                 ResultSet rs = statement.executeQuery(sql);
 
+                //If Non-extsts
                 if (!rs.next()) {
-                    System.out.println("[Query] Fail!");
+                    System.out.println("[Query] \"" + userName + "\" Login Fail!");
                     JOptionPane.showMessageDialog(this, "Login Failed, Password or Username Incorrect!", "Login", JOptionPane.ERROR_MESSAGE);
                 } else {
-                    System.out.println("[Query] Success!");
+                    System.out.println("[Query] \"" + userName + "\" Login Success!");
                     JOptionPane.showMessageDialog(this, "Login Successful!", "Login", JOptionPane.INFORMATION_MESSAGE);
-                    MainWindow mainWindow = new MainWindow();
+                    
+                    // Entrance of Mainwindow
+                    MainWindow mainWindow = new MainWindow(userInfo);
                     mainWindow.showup(); 
                     dispose();
                 }
@@ -94,7 +101,6 @@ public class LoginWindow extends JFrame implements ActionListener {
                 Class.forName("com.mysql.jdbc.Driver");
                 connection = DriverManager.getConnection(DB_URL, USER, PASS);
                 System.out.println("Connected database successfully...");
-
                 statement = connection.createStatement();
                 
                 // Find User From Database
