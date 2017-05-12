@@ -1,6 +1,9 @@
 package Client;
 
 import java.awt.event.*;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.Socket;
 import java.awt.*;
 import javax.swing.*;
 
@@ -19,6 +22,36 @@ public class MainWindow extends JFrame implements ActionListener{
         textField.setVisible(true);
         this.add(textField);
 
+        try {
+            Socket connectionSock = new Socket("127.0.0.1", 8787);
+            DataOutputStream serverOutput = new DataOutputStream(connectionSock.getOutputStream());
+
+            textField.addKeyListener(new KeyListener(){
+                public void keyPressed(KeyEvent keyEvent) {
+                    if (keyEvent.getKeyCode() == KeyEvent.VK_ENTER) {
+                        String context = textField.getText();
+                        textField.setText("");
+
+                        try {
+                            serverOutput.writeBytes(context + "\n");
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        
+                        System.out.println("[Textfield] Enter");
+                    }
+                }
+                public void keyReleased(KeyEvent keyEvent) {
+
+                }
+                public void keyTyped(KeyEvent keyEvent) {
+                
+                }
+            });
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
+
         JLabel profileLabel = new JLabel(userInfo.getUserName());
         profileLabel.setBounds(20, 20, 1000, 50);
         profileLabel.setVisible(true);
@@ -27,11 +60,9 @@ public class MainWindow extends JFrame implements ActionListener{
         TextArea mainTextArea = new TextArea();
         mainTextArea.setBounds(20, 100, 1000, 500);
         mainTextArea.setVisible(true);
+        mainTextArea.setEditable(false);
         this.add(mainTextArea);
 
-        JMenu menuFile = new JMenu("File");
-        JMenuBar menuBar = new JMenuBar();
-        JMenuItem item = new JMenuItem();
 
 
 

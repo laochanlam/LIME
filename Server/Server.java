@@ -6,7 +6,7 @@ public class Server {
     public static void main(String[] args) {
         try {
             ServerSocket serverSock = new ServerSocket(8787);
-            System.out.print("Server Started...");
+            System.out.print("Server Started...\n");
 
             while (true) {
                 Socket cSock = serverSock.accept();
@@ -16,7 +16,7 @@ public class Server {
             }
 
         } catch (IOException e) {
-            System.out.println("Disconnected...");
+            System.out.println("Disconnected...\n");
         }
     }
 }
