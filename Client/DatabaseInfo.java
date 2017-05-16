@@ -1,4 +1,4 @@
-package Client;
+package client;
 
 public class DatabaseInfo {
     private static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
