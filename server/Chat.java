@@ -1,11 +1,7 @@
 package server;
 
-import java.io.BufferedReader;
-import java.io.DataOutput;
-import java.io.DataOutputStream;
-import java.io.InputStreamReader;
-import java.io.ObjectInputStream;
 import java.net.*;
+import java.io.*;
 
 public class Chat implements Runnable {
     private Socket socket;
@@ -16,7 +12,7 @@ public class Chat implements Runnable {
     public void run() {
         try {
             ObjectInputStream clientInput = new ObjectInputStream(socket.getInputStream());
-            DataOutputStream replyOutput = new DataOutputStream(socket.getOutputStream());
+            ObjectOutputStream replyOutput = new ObjectOutputStream(socket.getOutputStream());
             
             while (true) {
 
@@ -30,13 +26,9 @@ public class Chat implements Runnable {
                 
                 
                 // // DataOutputStream forwardMessage = new DataOutputStream()
-                System.out.println("From Client: " + messageText);
-                System.out.println("Sender: " + sender);
-                System.out.println("Receiver: " + receiver);
-                System.out.println("IP: " + senderIP);
-                
+                System.out.println(message.getInfo());
+                replyOutput.writeObject(message);
 
-                replyOutput.writeBytes("Receive!" + "\n");
                 // String[] ipInfo = senderIP.split(":");
                 // System.out.println("123: " + ipInfo[0]);
                 // System.out.println("321: " + ipInfo[1]);

@@ -30,4 +30,11 @@ public class Message implements Serializable {
     public String getMessage() {
         return message;
     }
+
+    public String getInfo() {
+        return "From Client: " + message + "\n"
+                + "Sender: " + sender + "\n" 
+                + "Receiver: " + receiver + "\n"
+                + "IP: " + senderIP;
+    }
 }

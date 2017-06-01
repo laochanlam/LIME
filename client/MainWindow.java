@@ -1,11 +1,7 @@
 package client;
 
 import java.awt.event.*;
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.net.Socket;
 import java.awt.*;
 import javax.swing.*;
@@ -47,9 +43,7 @@ public class MainWindow extends JFrame implements ActionListener{
 
         try {
             Socket connectionSock = new Socket("127.0.0.1", 8787);
-            BufferedReader serverInput = new BufferedReader(new InputStreamReader(connectionSock.getInputStream()));
             ObjectOutputStream serverOutput = new ObjectOutputStream(connectionSock.getOutputStream());
-
 
             textField.addKeyListener(new KeyListener(){
                 public void keyPressed(KeyEvent keyEvent) {
@@ -68,10 +62,12 @@ public class MainWindow extends JFrame implements ActionListener{
                             Message message = new Message(context, sender, receiver);
                             serverOutput.writeObject(message);
 
-                            String replyMessage = serverInput.readLine();
-                            System.out.println(replyMessage);
 
-                        } catch (IOException e) {
+                            ObjectInputStream serverInput = new ObjectInputStream(connectionSock.getInputStream());
+                            Message receiveMessage = (Message) serverInput.readObject();
+                            System.out.println(receiveMessage.getInfo());
+
+                        } catch (Exception e) {
                             e.printStackTrace();
                         }
                         
@@ -85,7 +81,7 @@ public class MainWindow extends JFrame implements ActionListener{
                 
                 }
             });
-        } catch(IOException e) {
+        } catch(Exception e) {
             e.printStackTrace();
         }
 
