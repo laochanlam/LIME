@@ -40,10 +40,14 @@ public class MainWindow extends JFrame implements ActionListener{
         friendList.setBackground(Color.BLACK);
         this.add(friendList);
 
+        String receiver = "jack";
+        String sender = userInfo.getUserName();
 
         try {
             Socket connectionSock = new Socket("127.0.0.1", 8787);
+            BufferedReader serverInput = new BufferedReader(new InputStreamReader(connectionSock.getInputStream()));
             DataOutputStream serverOutput = new DataOutputStream(connectionSock.getOutputStream());
+
 
             textField.addKeyListener(new KeyListener(){
                 public void keyPressed(KeyEvent keyEvent) {
@@ -52,12 +56,18 @@ public class MainWindow extends JFrame implements ActionListener{
                         String context = textField.getText();
                         textField.setText("");
 
+
+
                         // Add Friend to Friend List 
                         friendList.add(new JButton());
                         friendList.revalidate();
                         
                         try {
-                            serverOutput.writeBytes(context + "\n");
+                            serverOutput.writeBytes(context + "\n" + sender + "\n" + receiver + "\n");
+
+                            String replyMessage = serverInput.readLine();
+                            System.out.println(replyMessage);
+                            
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
