@@ -5,9 +5,11 @@ import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.awt.*;
 import javax.swing.*;
+
 public class MainWindow extends JFrame implements ActionListener{
 
     private JFrame mainWindow;
@@ -46,7 +48,7 @@ public class MainWindow extends JFrame implements ActionListener{
         try {
             Socket connectionSock = new Socket("127.0.0.1", 8787);
             BufferedReader serverInput = new BufferedReader(new InputStreamReader(connectionSock.getInputStream()));
-            DataOutputStream serverOutput = new DataOutputStream(connectionSock.getOutputStream());
+            ObjectOutputStream serverOutput = new ObjectOutputStream(connectionSock.getOutputStream());
 
 
             textField.addKeyListener(new KeyListener(){
@@ -63,11 +65,12 @@ public class MainWindow extends JFrame implements ActionListener{
                         friendList.revalidate();
                         
                         try {
-                            serverOutput.writeBytes(context + "\n" + sender + "\n" + receiver + "\n");
+                            Message message = new Message(context, sender, receiver);
+                            serverOutput.writeObject(message);
 
                             String replyMessage = serverInput.readLine();
                             System.out.println(replyMessage);
-                            
+
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
