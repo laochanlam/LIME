@@ -28,6 +28,7 @@ public class Chat implements Runnable {
                 // // DataOutputStream forwardMessage = new DataOutputStream()
                 System.out.println(message.getInfo());
                 replyOutput.writeObject(message);
+                // replyOutput.flush();
 
                 // String[] ipInfo = senderIP.split(":");
                 // System.out.println("123: " + ipInfo[0]);

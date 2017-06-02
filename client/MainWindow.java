@@ -44,12 +44,14 @@ public class MainWindow extends JFrame implements ActionListener{
         try {
             Socket connectionSock = new Socket("127.0.0.1", 8787);
             ObjectOutputStream serverOutput = new ObjectOutputStream(connectionSock.getOutputStream());
+            ObjectInputStream serverInput = new ObjectInputStream(connectionSock.getInputStream());
 
             textField.addKeyListener(new KeyListener(){
                 public void keyPressed(KeyEvent keyEvent) {
                     // Trigger when Enter is clicked 
                     if (keyEvent.getKeyCode() == KeyEvent.VK_ENTER) {
                         String context = textField.getText();
+                        // Message receiveMessage = new Message("1", "1", 1");
                         textField.setText("");
 
 
@@ -62,10 +64,9 @@ public class MainWindow extends JFrame implements ActionListener{
                             Message message = new Message(context, sender, receiver);
                             serverOutput.writeObject(message);
 
-
-                            ObjectInputStream serverInput = new ObjectInputStream(connectionSock.getInputStream());
                             Message receiveMessage = (Message) serverInput.readObject();
                             System.out.println(receiveMessage.getInfo());
+                            mainTextArea.append(receiveMessage.show());
 
                         } catch (Exception e) {
                             e.printStackTrace();

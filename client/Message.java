@@ -35,6 +35,11 @@ public class Message implements Serializable {
         return "From Client: " + message + "\n"
                 + "Sender: " + sender + "\n" 
                 + "Receiver: " + receiver + "\n"
-                + "IP: " + senderIP;
+                + "IP: " + senderIP + "\n";
+    }
+
+    public String show() {
+        return sender + ": " + "\n\n      "
+                + message + "\n\n" ;
     }
 }
