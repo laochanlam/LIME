@@ -10,7 +10,7 @@ public class MainWindow extends JFrame implements ActionListener{
 
     private JFrame mainWindow;
 
-    public MainWindow(User userInfo) {
+    public MainWindow(User user) {
         super("LIME");
         setExtendedState(JFrame.MAXIMIZED_BOTH); // Full Screen Size
         
@@ -22,7 +22,7 @@ public class MainWindow extends JFrame implements ActionListener{
         this.add(textField);
 
         // Profile
-        JLabel profileLabel = new JLabel(userInfo.getUserName());
+        JLabel profileLabel = new JLabel(user.getUserName());
         profileLabel.setBounds(20, 20, 1000, 50);
         this.add(profileLabel);
 
@@ -39,19 +39,21 @@ public class MainWindow extends JFrame implements ActionListener{
         this.add(friendList);
 
         String receiver = "jack";
-        String sender = userInfo.getUserName();
+        String sender = user.getUserName();
 
         try {
             Socket connectionSock = new Socket("127.0.0.1", 8787);
             ObjectOutputStream serverOutput = new ObjectOutputStream(connectionSock.getOutputStream());
             ObjectInputStream serverInput = new ObjectInputStream(connectionSock.getInputStream());
+            
+            // Let Server know who you are
+            serverOutput.writeObject(user);
 
             textField.addKeyListener(new KeyListener(){
                 public void keyPressed(KeyEvent keyEvent) {
                     // Trigger when Enter is clicked 
                     if (keyEvent.getKeyCode() == KeyEvent.VK_ENTER) {
                         String context = textField.getText();
-                        // Message receiveMessage = new Message("1", "1", 1");
                         textField.setText("");
 
 
@@ -72,7 +74,7 @@ public class MainWindow extends JFrame implements ActionListener{
                             e.printStackTrace();
                         }
                         
-                        System.out.println("[Textfield] Enter");
+                        System.out.println("[Textfield] Enter\n");
                     }
                 }
                 public void keyReleased(KeyEvent keyEvent) {

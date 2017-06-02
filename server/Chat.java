@@ -1,10 +1,14 @@
 package server;
 
 import java.net.*;
+import java.util.*;
 import java.io.*;
 
 public class Chat implements Runnable {
     private Socket socket;
+    private static int counter;
+    public static ArrayList<String> onlineList;
+
     public Chat(Socket socket) {
         this.socket = socket;
     }
@@ -13,6 +17,17 @@ public class Chat implements Runnable {
         try {
             ObjectInputStream clientInput = new ObjectInputStream(socket.getInputStream());
             ObjectOutputStream replyOutput = new ObjectOutputStream(socket.getOutputStream());
+            
+            // Add to the list if online
+            client.User user = (client.User)clientInput.readObject();
+            System.out.println("[List]\"" + user.getUserName() + "\" is add to the online list!\n");
+            onlineList.add(user.getUserName() + counter);
+            counter++;
+            System.out.println("[List]");
+            for (String element : onlineList)
+                System.out.print("\"" + element + "\"");
+            System.out.println(" are online!\n");
+
             
             while (true) {
 
@@ -24,11 +39,8 @@ public class Chat implements Runnable {
                 String receiver = message.getReceiver();
                 String senderIP = message.getSenderIP();
                 
-                
-                // // DataOutputStream forwardMessage = new DataOutputStream()
                 System.out.println(message.getInfo());
                 replyOutput.writeObject(message);
-                // replyOutput.flush();
 
                 // String[] ipInfo = senderIP.split(":");
                 // System.out.println("123: " + ipInfo[0]);
