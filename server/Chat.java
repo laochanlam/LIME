@@ -3,35 +3,37 @@ package server;
 import java.net.*;
 import java.util.*;
 import java.io.*;
-
+import client.*;
 public class Chat implements Runnable {
     private Socket socket;
     private static int counter;
-    public static ArrayList<String> onlineList;
 
+    ObjectInputStream clientInput;
+    ObjectOutputStream clientOutput;
     public Chat(Socket socket) {
         this.socket = socket;
     }
 
     public void run() {
         try {
-            ObjectInputStream clientInput = new ObjectInputStream(socket.getInputStream());
-            ObjectOutputStream replyOutput = new ObjectOutputStream(socket.getOutputStream());
+            clientInput = new ObjectInputStream(socket.getInputStream());
+            clientOutput = new ObjectOutputStream(socket.getOutputStream());
             
             // Add to the list if online
-            client.User user = (client.User)clientInput.readObject();
+            User user = (User)clientInput.readObject();
             System.out.println("[List]\"" + user.getUserName() + "\" is add to the online list!\n");
-            onlineList.add(user.getUserName() + counter);
+            Server.onlineList.put(user.getUserName() + counter, this);
             counter++;
             System.out.println("[List]");
-            for (String element : onlineList)
-                System.out.print("\"" + element + "\"");
+            // for (String element : Server.onlineList)
+            //     System.out.print("\"" + element + "\"");
+            System.out.print(Server.onlineList.keySet());
             System.out.println(" are online!\n");
 
             
             while (true) {
 
-                client.Message message = (client.Message)clientInput.readObject();
+                Message message = (Message)clientInput.readObject();
                 message.setSenderIP(socket.getRemoteSocketAddress().toString().substring(1));
                 
                 String messageText = message.getMessage();
@@ -40,7 +42,8 @@ public class Chat implements Runnable {
                 String senderIP = message.getSenderIP();
                 
                 System.out.println(message.getInfo());
-                replyOutput.writeObject(message);
+                clientOutput.writeObject(message);
+                Server.forward(message);
 
                 // String[] ipInfo = senderIP.split(":");
                 // System.out.println("123: " + ipInfo[0]);
@@ -49,6 +52,14 @@ public class Chat implements Runnable {
                 // DataOutput forwardOutput = new DataOutputStream(forwardSocket.getOutputStream());
                 // forwardOutput.writeBytes("fuckuhere");
             }
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void write(Message message) {
+        try {
+            this.clientOutput.writeObject(message);
         } catch(Exception e) {
             e.printStackTrace();
         }

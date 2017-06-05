@@ -38,7 +38,7 @@ public class MainWindow extends JFrame implements ActionListener{
         friendList.setBackground(Color.BLACK);
         this.add(friendList);
 
-        String receiver = "jack";
+        String receiver = "lam1";
         String sender = user.getUserName();
 
         try {
@@ -65,7 +65,6 @@ public class MainWindow extends JFrame implements ActionListener{
                         try {
                             Message message = new Message(context, sender, receiver);
                             serverOutput.writeObject(message);
-
                             Message receiveMessage = (Message) serverInput.readObject();
                             System.out.println(receiveMessage.getInfo());
                             mainTextArea.append(receiveMessage.show());

@@ -3,13 +3,17 @@ package server;
 import java.util.*;
 import java.net.*;
 import java.io.*;
+import client.*;
 public class Server {
+
+    // public static ArrayList<String> onlineList;
+    public static Map<String, Chat> onlineList;
     public static void main(String[] args) {
         
         try {
             ServerSocket serverSock = new ServerSocket(8787);
             System.out.println("Server Started...\n");
-            Chat.onlineList = new ArrayList<String>();
+            onlineList = new HashMap<String, Chat>();
             
             while (true) {
                 Socket cSock = serverSock.accept();
@@ -22,4 +26,10 @@ public class Server {
             System.out.println("Disconnected...\n");
         }
     }
+
+    public static void forward(Message message){
+        Chat receiveChat = onlineList.get(message.getReceiver());
+        receiveChat.write(message);
+    }
+
 }
