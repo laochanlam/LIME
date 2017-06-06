@@ -6,7 +6,6 @@ import java.io.*;
 import client.*;
 public class Server {
 
-    // public static ArrayList<String> onlineList;
     public static Map<String, Chat> onlineList;
     public static void main(String[] args) {
         

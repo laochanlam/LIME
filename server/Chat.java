@@ -7,9 +7,8 @@ import client.*;
 public class Chat implements Runnable {
     private Socket socket;
     private static int counter;
-
-    ObjectInputStream clientInput;
-    ObjectOutputStream clientOutput;
+    private ObjectInputStream clientInput;
+    private ObjectOutputStream clientOutput;
     public Chat(Socket socket) {
         this.socket = socket;
     }
