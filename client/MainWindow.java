@@ -5,6 +5,7 @@ import java.io.*;
 import java.net.Socket;
 import java.awt.*;
 import javax.swing.*;
+import java.awt.Toolkit;
 
 import server.Chat;
 
@@ -26,26 +27,41 @@ public class MainWindow extends JFrame implements ActionListener{
         setExtendedState(JFrame.MAXIMIZED_BOTH); // Full Screen Size
         
         setLayout(null);
+
+		//get screen size
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         
+		//the screen height
+		screenSize.getHeight();
+		
+		//the screen width
+		screenSize.getWidth();
+
+		int screenHeight = screenSize.height;
+		int screenWidth = screenSize.width;
+
+		System.out.println("screenHeight="+screenHeight);
+		System.out.println("screenWidth="+screenWidth);
+		
         //Type Field
         textField = new TextField("New");
-        textField.setBounds(20, 650, 1000, 50);
+        textField.setBounds(screenWidth/100,screenHeight*80/100,screenWidth*2/3,screenHeight/10);
         this.add(textField);
 
         // Profile
         profileLabel = new JLabel(user.getUserName());
-        profileLabel.setBounds(20, 20, 1000, 50);
+        profileLabel.setBounds(screenWidth/100,screenHeight*5/100,screenWidth*2/3, screenHeight/10);
         this.add(profileLabel);
 
         // Chat-Frame
         mainTextArea = new TextArea();
-        mainTextArea.setBounds(20, 100, 1000, 500);
+        mainTextArea.setBounds(screenWidth/100,screenHeight*15/100,screenWidth*2/3,screenHeight*60/100);
         mainTextArea.setEditable(false);
         this.add(mainTextArea);
 
         // Friend List
         friendList = new Panel();
-        friendList.setBounds(1100, 25, 230, 700);
+        friendList.setBounds(screenWidth*70/100,screenHeight*5/100, screenWidth*7/30,screenHeight*17/20);
         friendList.setBackground(Color.BLACK);
         this.add(friendList);
 
