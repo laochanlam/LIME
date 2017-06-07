@@ -57,7 +57,7 @@ public class MainWindow extends JFrame implements ActionListener{
             receiver = "lam";
 
         try {
-            Socket connectionSock = new Socket("127.0.0.1", 8787);
+            Socket connectionSock = new Socket("140.116.245.244", 8787);
             serverOutput = new ObjectOutputStream(connectionSock.getOutputStream());
             serverInput = new ObjectInputStream(connectionSock.getInputStream());
             
