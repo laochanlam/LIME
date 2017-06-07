@@ -24,11 +24,16 @@ public class Chat implements Runnable {
 
             User user = (User)clientInput.readObject();
             System.out.println("[online]" + user.getUserName() + " online!");
+
+
+            System.out.println("[List]\"" + user.getUserName() + "\" is add to the online list!\n");
+            Server.onlineList.put(user.getUserName(), this);
+
+            // Server.
             WrapObject obj = new WrapObject(user);
             clientOutput.writeObject(obj);
 
-            System.out.println("[List]\"" + user.getUserName() + "\" is add to the online list!\n");
-            Server.onlineList.put(user.getUserName() + counter, this);
+
             counter++;
             System.out.println("[List]");
             // for (String element : Server.onlineList)

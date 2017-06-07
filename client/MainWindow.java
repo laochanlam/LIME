@@ -48,9 +48,13 @@ public class MainWindow extends JFrame implements ActionListener{
         friendList.setBackground(Color.BLACK);
         this.add(friendList);
 
-        String receiver = "lam1";
+        String receiver;
 
         String sender = user.getUserName();
+        if (sender.equals("lam"))
+            receiver = "jack";
+        else
+            receiver = "lam";
 
         try {
             Socket connectionSock = new Socket("127.0.0.1", 8787);
