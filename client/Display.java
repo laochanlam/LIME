@@ -35,17 +35,22 @@ public class Display implements Runnable {
                         System.out.println("[Someone Online]");
                         // Add Friend to Friend List 
 
-                        System.out.println(user.getUserName() + user.isLast);
+                        System.out.println(user.getUserName() + receiveObject.isFirst);
                         // Reset friend list here.
-                        // mainWindow.remove(mainWindow.friendList);
-                        // mainWindow.friendList = new Panel();
-                        // mainWindow.friendList.setBounds(1100, 25, 230, 700);
-                        // mainWindow.friendList.setBackground(Color.BLACK);
 
-                        // mainWindow.friendList.add(new JButton(user.getUserName()));
-                        // mainWindow.friendList.revalidate();
+                        if (receiveObject.isFirst == 1) {
+                            mainWindow.remove(mainWindow.friendList);
+                            mainWindow.friendList = new Panel();
+                            mainWindow.friendList.setBounds(1100, 25, 230, 700);
+                            mainWindow.friendList.setBackground(Color.BLACK);
+                            mainWindow.add(mainWindow.friendList);
 
-                        // mainWindow.add(mainWindow.friendList);
+                            mainWindow.friendList.add(new JButton(user.getUserName()));
+                            mainWindow.friendList.revalidate();
+                        } else {
+                            mainWindow.friendList.add(new JButton(user.getUserName()));
+                            mainWindow.friendList.revalidate();
+                        }
                         break;
                 }
             }

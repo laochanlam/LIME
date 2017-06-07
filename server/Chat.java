@@ -38,12 +38,15 @@ public class Chat implements Runnable {
             Iterator biterator = Server.onlineList.entrySet().iterator();
 
             while (biterator.hasNext()) {
+                // each stream
                 Map.Entry bmapEntry = (Map.Entry) biterator.next();
                 Chat chat = (Chat) bmapEntry.getValue();
                 System.out.println("Stream : " + bmapEntry.getKey());
                 ObjectOutputStream streams = (ObjectOutputStream) chat.clientOutput;
 
                 Iterator iterator = Server.onlineList.entrySet().iterator();
+                // each user
+                boolean isFirst = true;
                 while (iterator.hasNext()) {
                     Map.Entry mapEntry = (Map.Entry) iterator.next();
 
@@ -51,10 +54,14 @@ public class Chat implements Runnable {
                     System.out.println(mapEntry.getKey());
 
                     User onlineUser = Server.nameList.get(mapEntry.getKey());
-                    if (iterator.hasNext())
-                        sendObject = new WrapObject(onlineUser, 0);
-                    else
+                    if (isFirst) {
                         sendObject = new WrapObject(onlineUser, 1);
+                        System.out.println("[Send]" + mapEntry.getKey() + 1);
+                        isFirst = false;
+                    } else {
+                        sendObject = new WrapObject(onlineUser, 0);
+                        System.out.println("[Send]" + mapEntry.getKey() + 0);
+                    }
 
                     streams.writeObject(sendObject);
                 }
