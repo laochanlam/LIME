@@ -67,9 +67,6 @@ public class MainWindow extends JFrame implements ActionListener{
             Display display = new Display(serverInput, mainTextArea, friendList);
             Thread displayThread = new Thread(display);
             displayThread.start();
-            // OnlineList onlineList = new OnlineList(serverInput, friendList);
-            // Thread onlineListThread = new Thread(onlineList);
-            // onlineListThread.start();
             System.out.println("[Thread]Thread Start...");
 
 

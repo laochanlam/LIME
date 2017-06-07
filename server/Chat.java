@@ -53,16 +53,11 @@ public class Chat implements Runnable {
                 
                 System.out.println(message.getInfo());
 
+                // Forward to whom you talk to.
                 WrapObject sendObject = new WrapObject(message);
                 clientOutput.writeObject(sendObject);
                 Server.forward(sendObject);
 
-                // String[] ipInfo = senderIP.split(":"ç);
-                // System.out.println("123: " + ipInfo[0]);
-                // System.out.println("321: " + ipInfo[1]);
-                // Socket forwardSocket = new Socket(ipInfo[0], Integer.parseInt(ipInfo[1]));
-                // DataOutput forwardOutput = new DataOutputStream(forwardSocket.getOutputStream());
-                // forwardOutput.writeBytes("fuckuhere");
             }
         } catch(Exception e) {
             e.printStackTrace();
