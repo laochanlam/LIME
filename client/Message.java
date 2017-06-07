@@ -1,6 +1,6 @@
 package client;
 import java.io.*;
-public class Message implements Serializable {
+public class Message extends WrapObject implements Serializable {
     private String sender;
     private String receiver;
     private String message;

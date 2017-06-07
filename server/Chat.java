@@ -6,20 +6,25 @@ import java.io.*;
 import client.*;
 public class Chat implements Runnable {
     private Socket socket;
-    private static int counter;
+    public static int counter;
     private ObjectInputStream clientInput;
     private ObjectOutputStream clientOutput;
+    private ObjectOutputStream onlineListOutput;
     public Chat(Socket socket) {
         this.socket = socket;
     }
+
 
     public void run() {
         try {
             clientInput = new ObjectInputStream(socket.getInputStream());
             clientOutput = new ObjectOutputStream(socket.getOutputStream());
-            
+            // onlineListOutput = new ObjectOutputStream(socket.getOutputStream());
             // Add to the list if online
             User user = (User)clientInput.readObject();
+            // WrapObject obj = new WrapObject(user);
+            
+            // onlineListOutput.writeObject(user);
             System.out.println("[List]\"" + user.getUserName() + "\" is add to the online list!\n");
             Server.onlineList.put(user.getUserName() + counter, this);
             counter++;
@@ -34,17 +39,19 @@ public class Chat implements Runnable {
 
                 Message message = (Message)clientInput.readObject();
                 message.setSenderIP(socket.getRemoteSocketAddress().toString().substring(1));
-                
                 String messageText = message.getMessage();
                 String sender = message.getSender();
                 String receiver = message.getReceiver();
                 String senderIP = message.getSenderIP();
                 
                 System.out.println(message.getInfo());
-                clientOutput.writeObject(message);
+
+                WrapObject sendObject = new WrapObject(message);
+                clientOutput.writeObject(sendObject);
+
                 Server.forward(message);
 
-                // String[] ipInfo = senderIP.split(":");
+                // String[] ipInfo = senderIP.split(":"ç);
                 // System.out.println("123: " + ipInfo[0]);
                 // System.out.println("321: " + ipInfo[1]);
                 // Socket forwardSocket = new Socket(ipInfo[0], Integer.parseInt(ipInfo[1]));
@@ -58,7 +65,8 @@ public class Chat implements Runnable {
 
     public void write(Message message) {
         try {
-            this.clientOutput.writeObject(message);
+            WrapObject sendObject = new WrapObject(message);
+            this.clientOutput.writeObject(sendObject);
         } catch(Exception e) {
             e.printStackTrace();
         }

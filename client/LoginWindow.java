@@ -48,8 +48,8 @@ public class LoginWindow extends JFrame implements ActionListener {
         String userName = userNameTextField.getText();
         String password = passwordTextField.getText();
         // For transforming to Mainwindow
-        User userInfo = new User(userName);
 
+        User userInfo = new User(userName);
         DatabaseInfo databaseInfo = new DatabaseInfo();
         Connection connection = null;
         Statement statement = null;

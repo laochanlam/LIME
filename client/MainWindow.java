@@ -6,13 +6,15 @@ import java.net.Socket;
 import java.awt.*;
 import javax.swing.*;
 
+import server.Chat;
+
 public class MainWindow extends JFrame implements ActionListener{
 
     private Socket connectionSock;
     private ObjectOutputStream serverOutput;
     private ObjectInputStream serverInput;
 
-
+    public static int counter;
     public static TextField textField;
     public static JLabel profileLabel;   
     public static TextArea mainTextArea;
@@ -47,6 +49,7 @@ public class MainWindow extends JFrame implements ActionListener{
         this.add(friendList);
 
         String receiver = "lam1";
+
         String sender = user.getUserName();
 
         try {
@@ -60,6 +63,9 @@ public class MainWindow extends JFrame implements ActionListener{
             Display display = new Display(serverInput, mainTextArea);
             Thread displayThread = new Thread(display);
             displayThread.start();
+            // OnlineList onlineList = new OnlineList(serverInput, friendList);
+            // Thread onlineListThread = new Thread(onlineList);
+            // onlineListThread.start();
             System.out.println("[Thread]Thread Start...");
 
 
@@ -74,14 +80,10 @@ public class MainWindow extends JFrame implements ActionListener{
                     String context = textField.getText();
                     textField.setText("");
 
-                    // Add Friend to Friend List 
-                    friendList.add(new JButton());
-                    friendList.revalidate();
-
                     try {
                         Message message = new Message(context, sender, receiver);
                         serverOutput.writeObject(message);
-                        System.out.println("I am writing this : /n" + message.getInfo());
+                        System.out.println("I am writing this : \n" + message.getInfo());
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
