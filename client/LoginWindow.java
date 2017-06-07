@@ -5,31 +5,57 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.event.*;
+
 public class LoginWindow extends JFrame implements ActionListener {
     JButton loginButton;
     JButton registerButton;
     JTextField userNameTextField;
     JTextField passwordTextField;
+
     public LoginWindow() {
         // Window
         super("LIME");
-        setSize(400, 120);
-        setLocation(300, 200);
+
+		//get screen size
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		screenSize.getHeight();
+		screenSize.getWidth();
+
+		int screenHeight = screenSize.height;
+		int screenWidth = screenSize.width;
+
+		setExtendedState(JFrame.MAXIMIZED_BOTH);
+		setLayout(null);
+
+        setSize(300, 500);
+        setLocation(screenWidth/2-300/2, screenHeight/2-500/2);
 
         // Text Field
         userNameTextField = new JTextField(30);
+		userNameTextField.setBounds(screenWidth/2-300,screenHeight/2+100,500,35);
+
         passwordTextField = new JTextField(30);
-        JLabel userNameLabel = new JLabel("用戶名");
+        passwordTextField.setBounds(screenWidth/2-300,screenHeight/2+100+70,500,35);
+
+		JLabel userNameLabel = new JLabel("用戶名");
+		userNameLabel.setBounds(screenWidth/2-350,screenHeight/2+100,200,40);
+
         JLabel passwordLabel = new JLabel("密碼");
-        
+        passwordLabel.setBounds(screenWidth/2-350,screenHeight/2+100+70,200,40);
+
         // Button
         loginButton = new JButton("登入");
         loginButton.addActionListener(this);
+		loginButton.setLocation(screenWidth/2-300/2,screenHeight/2+250);
+		loginButton.setSize(200,40);
+
         registerButton = new JButton("注冊");
         registerButton.addActionListener(this);
+		registerButton.setLocation(screenWidth/2-300/2,screenHeight/2+300);
+		registerButton.setSize(200,40);
 
         // Layout
-        setLayout(new GridLayout(3, 2));
+       // setLayout(new GridLayout(3, 2));
         add(userNameLabel);
         add(userNameTextField);
         add(passwordLabel);
@@ -130,4 +156,3 @@ public class LoginWindow extends JFrame implements ActionListener {
 
     } 
 }
-
