@@ -13,12 +13,10 @@ import java.awt.event.*;
 
 public class Display implements Runnable {
     private ObjectInputStream serverInput;
-    private TextArea mainTextArea;
-    private Panel friendList;
-    public Display(ObjectInputStream serverInput, TextArea textArea, Panel friendList) {
+    private MainWindow mainWindow;
+    public Display(ObjectInputStream serverInput, MainWindow mainWindow) {
         this.serverInput = serverInput;
-        this.mainTextArea = textArea;
-        this.friendList = friendList;
+        this.mainWindow = mainWindow;
     }
 
     public void run() {
@@ -30,14 +28,24 @@ public class Display implements Runnable {
                     case (WrapObject.MESSAGE):
                         Message receiveMessage = receiveObject.msg;
                         System.out.println("I am receiving this : \n" + receiveMessage.getInfo());
-                        mainTextArea.append(receiveMessage.show());
+                        mainWindow.mainTextArea.append(receiveMessage.show());
                         break;
                     case (WrapObject.USER):
                         User user = receiveObject.user;
                         System.out.println("[Someone Online]");
                         // Add Friend to Friend List 
-                        MainWindow.friendList.add(new JButton(user.getUserName()));
-                        MainWindow.friendList.revalidate();
+
+                        System.out.println(user.getUserName() + user.isLast);
+                        // Reset friend list here.
+                        // mainWindow.remove(mainWindow.friendList);
+                        // mainWindow.friendList = new Panel();
+                        // mainWindow.friendList.setBounds(1100, 25, 230, 700);
+                        // mainWindow.friendList.setBackground(Color.BLACK);
+
+                        // mainWindow.friendList.add(new JButton(user.getUserName()));
+                        // mainWindow.friendList.revalidate();
+
+                        // mainWindow.add(mainWindow.friendList);
                         break;
                 }
             }

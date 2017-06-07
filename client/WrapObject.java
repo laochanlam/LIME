@@ -5,14 +5,15 @@ public class WrapObject implements Serializable{
     public int objectType;
     public User user;
     public Message msg;
+    public int isLast;
 
     public final static int USER = 0;
     public final static int MESSAGE = 1;
 
-    public WrapObject(User user){
-        this.user = user;
+    public WrapObject(User user, int isLast){
         objectType = USER;
-  
+        this.user = user;
+        this.isLast = isLast;
     } 
     public WrapObject(Message msg){
         this.msg = msg;

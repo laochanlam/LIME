@@ -16,9 +16,10 @@ public class MainWindow extends JFrame implements ActionListener{
 
     public static int counter;
     public static TextField textField;
-    public static JLabel profileLabel;   
+    public static JLabel profileLabel;
     public static TextArea mainTextArea;
     public static Panel friendList;
+    public static Panel emptyFriendList;
 
     public MainWindow(User user) {
         super("LIME");
@@ -48,6 +49,9 @@ public class MainWindow extends JFrame implements ActionListener{
         friendList.setBackground(Color.BLACK);
         this.add(friendList);
 
+        //Set a empty list.
+        emptyFriendList = friendList;
+
         String receiver;
 
         String sender = user.getUserName();
@@ -57,14 +61,15 @@ public class MainWindow extends JFrame implements ActionListener{
             receiver = "lam";
 
         try {
-            Socket connectionSock = new Socket("140.116.245.244", 8787);
+            // Socket connectionSock = new Socket("140.116.245.244", 8787);
+            Socket connectionSock = new Socket("127.0.0.1", 8787);
             serverOutput = new ObjectOutputStream(connectionSock.getOutputStream());
             serverInput = new ObjectInputStream(connectionSock.getInputStream());
             
             // Let Server know who you are
             serverOutput.writeObject(user);
 
-            Display display = new Display(serverInput, mainTextArea, friendList);
+            Display display = new Display(serverInput, this);
             Thread displayThread = new Thread(display);
             displayThread.start();
             System.out.println("[Thread]Thread Start...");
@@ -104,6 +109,10 @@ public class MainWindow extends JFrame implements ActionListener{
 
     }
     
+    // public static void resetFriendList() {
+    //     this.remove(friendList);
+    //     this.add(emptyFriendList);
+    // }
     public void showup(){
         setVisible(true);
     }

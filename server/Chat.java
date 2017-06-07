@@ -2,11 +2,15 @@ package server;
 
 import java.net.*;
 import java.util.*;
+
+import javax.net.ssl.ExtendedSSLSession;
+
 import java.io.*;
 import client.*;
 public class Chat implements Runnable {
     private Socket socket;
     public static int counter;
+    private WrapObject sendObject;
     private ObjectInputStream clientInput;
     private ObjectOutputStream clientOutput;
     private ObjectOutputStream onlineListOutput;
@@ -19,7 +23,7 @@ public class Chat implements Runnable {
         try {
             clientInput = new ObjectInputStream(socket.getInputStream());
             clientOutput = new ObjectOutputStream(socket.getOutputStream());
-            // onlineListOutput = new ObjectOutputStream(socket.getOutputStream());
+
             // Add to the list if online
 
             User user = (User)clientInput.readObject();
@@ -28,10 +32,37 @@ public class Chat implements Runnable {
 
             System.out.println("[List]\"" + user.getUserName() + "\" is add to the online list!\n");
             Server.onlineList.put(user.getUserName(), this);
+            Server.nameList.put(user.getUserName(), user);
 
-            // Server.
-            WrapObject obj = new WrapObject(user);
-            clientOutput.writeObject(obj);
+            // Server output.
+            Iterator biterator = Server.onlineList.entrySet().iterator();
+
+            while (biterator.hasNext()) {
+                Map.Entry bmapEntry = (Map.Entry) biterator.next();
+                Chat chat = (Chat) bmapEntry.getValue();
+                System.out.println("Stream : " + bmapEntry.getKey());
+                ObjectOutputStream streams = (ObjectOutputStream) chat.clientOutput;
+
+                Iterator iterator = Server.onlineList.entrySet().iterator();
+                while (iterator.hasNext()) {
+                    Map.Entry mapEntry = (Map.Entry) iterator.next();
+
+                    // Name
+                    System.out.println(mapEntry.getKey());
+
+                    User onlineUser = Server.nameList.get(mapEntry.getKey());
+                    if (iterator.hasNext())
+                        sendObject = new WrapObject(onlineUser, 0);
+                    else
+                        sendObject = new WrapObject(onlineUser, 1);
+
+                    streams.writeObject(sendObject);
+                }
+
+            }
+
+            // WrapObject obj = new WrapObject(user);
+            // clientOutput.writeObject(obj);
 
 
             counter++;
@@ -50,11 +81,10 @@ public class Chat implements Runnable {
                 String sender = message.getSender();
                 String receiver = message.getReceiver();
                 String senderIP = message.getSenderIP();
-                
                 System.out.println(message.getInfo());
 
                 // Forward to whom you talk to.
-                WrapObject sendObject = new WrapObject(message);
+                sendObject = new WrapObject(message);
                 clientOutput.writeObject(sendObject);
                 Server.forward(sendObject);
 
