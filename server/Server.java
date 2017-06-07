@@ -26,9 +26,16 @@ public class Server {
         }
     }
 
-    public static void forward(Message message){
-        Chat receiveChat = onlineList.get(message.getReceiver());
-        receiveChat.write(message);
+    public static void forward(WrapObject obj){
+        switch(obj.objectType) {
+            case (WrapObject.MESSAGE):
+            Chat receiveChat = onlineList.get(obj.msg.getReceiver());
+            receiveChat.write(obj);
+            break;
+        case (WrapObject.USER):
+
+            break;
+        }
     }
 
 }

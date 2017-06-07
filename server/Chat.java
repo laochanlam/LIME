@@ -21,10 +21,12 @@ public class Chat implements Runnable {
             clientOutput = new ObjectOutputStream(socket.getOutputStream());
             // onlineListOutput = new ObjectOutputStream(socket.getOutputStream());
             // Add to the list if online
+
             User user = (User)clientInput.readObject();
-            // WrapObject obj = new WrapObject(user);
-            
-            // onlineListOutput.writeObject(user);
+            System.out.println("[online]" + user.getUserName() + " online!");
+            WrapObject obj = new WrapObject(user);
+            clientOutput.writeObject(obj);
+
             System.out.println("[List]\"" + user.getUserName() + "\" is add to the online list!\n");
             Server.onlineList.put(user.getUserName() + counter, this);
             counter++;
@@ -48,8 +50,7 @@ public class Chat implements Runnable {
 
                 WrapObject sendObject = new WrapObject(message);
                 clientOutput.writeObject(sendObject);
-
-                Server.forward(message);
+                Server.forward(sendObject);
 
                 // String[] ipInfo = senderIP.split(":"ç);
                 // System.out.println("123: " + ipInfo[0]);
@@ -63,10 +64,9 @@ public class Chat implements Runnable {
         }
     }
 
-    public void write(Message message) {
-        try {
-            WrapObject sendObject = new WrapObject(message);
-            this.clientOutput.writeObject(sendObject);
+    public void write(WrapObject obj) {
+        try {   
+            this.clientOutput.writeObject(obj);
         } catch(Exception e) {
             e.printStackTrace();
         }

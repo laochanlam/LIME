@@ -60,7 +60,7 @@ public class MainWindow extends JFrame implements ActionListener{
             // Let Server know who you are
             serverOutput.writeObject(user);
 
-            Display display = new Display(serverInput, mainTextArea);
+            Display display = new Display(serverInput, mainTextArea, friendList);
             Thread displayThread = new Thread(display);
             displayThread.start();
             // OnlineList onlineList = new OnlineList(serverInput, friendList);

@@ -6,8 +6,8 @@ public class WrapObject implements Serializable{
     public User user;
     public Message msg;
 
-    final static int USER = 0;
-    final static int MESSAGE = 1;
+    public final static int USER = 0;
+    public final static int MESSAGE = 1;
 
     public WrapObject(User user){
         this.user = user;
