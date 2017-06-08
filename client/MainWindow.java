@@ -37,6 +37,9 @@ public class MainWindow extends JFrame implements ActionListener{
         setExtendedState(JFrame.MAXIMIZED_BOTH); // Full Screen Size
         
         setLayout(null);
+		
+		//backgound colour
+		getContentPane().setBackground(new Color(204,255,153));
 
 		//get screen size
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -70,7 +73,7 @@ public class MainWindow extends JFrame implements ActionListener{
         // Friend List
         friendList = new Panel();
         nameButtonList = new HashMap<String, JButton>();
-        friendList.setBounds(screenWidth*70/100,screenHeight*5/100, screenWidth*7/30,screenHeight*17/20);
+        friendList.setBounds(screenWidth*75/100,screenHeight*5/100, screenWidth*4/30,screenHeight*17/20);
         friendList.setBackground(Color.BLACK);
         this.add(friendList);
 

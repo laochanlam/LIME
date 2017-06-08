@@ -5,12 +5,14 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.event.*;
+import java.net.URL;
 
 public class LoginWindow extends JFrame implements ActionListener {
     JButton loginButton;
     JButton registerButton;
     JTextField userNameTextField;
     JTextField passwordTextField;
+	JLabel lb;
 
     public LoginWindow() {
         // Window
@@ -35,24 +37,38 @@ public class LoginWindow extends JFrame implements ActionListener {
 		userNameTextField.setBounds(screenWidth/2-300,screenHeight/2+100,500,35);
 
         passwordTextField = new JTextField(30);
-        passwordTextField.setBounds(screenWidth/2-300,screenHeight/2+100+70,500,35);
+        passwordTextField.setBounds(screenWidth/2-300,screenHeight/2+100+50,500,35);
 
 		JLabel userNameLabel = new JLabel("用戶名");
-		userNameLabel.setBounds(screenWidth/2-350,screenHeight/2+100,200,40);
+		userNameLabel.setBounds(-80+screenWidth/2-300,screenHeight/2+100,200,40);
 
         JLabel passwordLabel = new JLabel("密碼");
-        passwordLabel.setBounds(screenWidth/2-350,screenHeight/2+100+70,200,40);
+        passwordLabel.setBounds(-80+screenWidth/2-300,screenHeight/2+100+50,200,40);
 
         // Button
         loginButton = new JButton("登入");
         loginButton.addActionListener(this);
-		loginButton.setLocation(screenWidth/2-300/2,screenHeight/2+250);
+		loginButton.setLocation(screenWidth/2-300/2,screenHeight/2+200);
 		loginButton.setSize(200,40);
 
         registerButton = new JButton("注冊");
         registerButton.addActionListener(this);
-		registerButton.setLocation(screenWidth/2-300/2,screenHeight/2+300);
+		registerButton.setLocation(screenWidth/2-300/2,screenHeight/2+240);
 		registerButton.setSize(200,40);
+
+		//logo
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+		try{	
+			ImageIcon icon = new ImageIcon(new URL("http://i.imgur.com/Y2jnrJz.jpg"));
+			Image img = icon.getImage();
+			Image newimg = img.getScaledInstance(400,400,java.awt.Image.SCALE_SMOOTH);
+			icon = new ImageIcon(newimg);
+			lb =new JLabel(icon);
+			lb.setBounds(screenWidth/2-300,screenHeight/2-400,500,500);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 
         // Layout
        // setLayout(new GridLayout(3, 2));
@@ -61,7 +77,11 @@ public class LoginWindow extends JFrame implements ActionListener {
         add(passwordLabel);
         add(passwordTextField);
         add(loginButton);
-        add(registerButton);   
+        add(registerButton);  
+		add(lb);
+		
+		//background color
+		getContentPane().setBackground(new Color(204,255,153));
     }
 
     public void showup(){
