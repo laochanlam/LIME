@@ -35,9 +35,8 @@ public class Display implements Runnable {
                         JButton button;
                         if (!receiveMessage.getReceiver().equals("World")) {
                             TextArea textArea = MainWindow.textAreaList.get(receiveMessage.getSender());
-							//textArea.append(receiveMessage.show());
-							// Font font2 = new Font(Font.MONOSPACED,Font.PLAIN, 15);
-                        	// textArea.setFont(font2);
+							Font font2 = new Font(Font.MONOSPACED,Font.PLAIN, 15);
+                        	textArea.setFont(font2);
 							textArea.append(receiveMessage.show());
 							button = MainWindow.nameButtonList.get(receiveMessage.getSender());
                         }
