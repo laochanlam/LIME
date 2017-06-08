@@ -74,7 +74,7 @@ public class MainWindow extends JFrame implements ActionListener{
 
         //BoardCast textArea
         TextArea textArea = new TextArea();
-		Font font4 = new Font(Font.MONOSPACED, Font.PLAIN, 30);
+		Font font4 = new Font(Font.MONOSPACED, Font.PLAIN, 15);
 		textArea.setFont(font4);
         textArea.setBounds(screenWidth/100, screenHeight*15/100,
         screenWidth*2/3, screenHeight*60/100);

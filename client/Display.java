@@ -36,8 +36,8 @@ public class Display implements Runnable {
                         if (!receiveMessage.getReceiver().equals("World")) {
                             TextArea textArea = MainWindow.textAreaList.get(receiveMessage.getSender());
 							//textArea.append(receiveMessage.show());
-							Font font2 = new Font(Font.MONOSPACED,Font.PLAIN,30);
-                        	textArea.setFont(font2);
+							// Font font2 = new Font(Font.MONOSPACED,Font.PLAIN, 15);
+                        	// textArea.setFont(font2);
 							textArea.append(receiveMessage.show());
 							button = MainWindow.nameButtonList.get(receiveMessage.getSender());
                         }
@@ -64,7 +64,8 @@ public class Display implements Runnable {
                         // if textArea non-exist
                         if ((!MainWindow.textAreaList.containsKey(user.getUserName())) && (!user.getUserName().equals(MainWindow.user.getUserName()))) {
                             TextArea textArea = new TextArea();
-							Font font3 = new Font(Font.MONOSPACED,Font.PLAIN,30);
+                            
+							Font font3 = new Font(Font.MONOSPACED,Font.PLAIN,15);
                         	textArea.setFont(font3);
 
                             textArea.setBounds(MainWindow.screenWidth/100, MainWindow.screenHeight*15/100,

@@ -39,7 +39,7 @@ public class Message extends WrapObject implements Serializable {
     }
 
     public String show() {
-        return sender + ": " + "\n\n      "
+        return sender + ": " + "\n\n   "
                 + message + "\n\n" ;
     }
 }
