@@ -34,8 +34,12 @@ public class Display implements Runnable {
                         // Make it red
                         JButton button;
                         if (!receiveMessage.getReceiver().equals("World")) {
-                            MainWindow.textAreaList.get(receiveMessage.getSender()).append(receiveMessage.show());
-                            button = MainWindow.nameButtonList.get(receiveMessage.getSender());
+                            TextArea textArea = MainWindow.textAreaList.get(receiveMessage.getSender());
+							//textArea.append(receiveMessage.show());
+							Font font2 = new Font(Font.MONOSPACED,Font.PLAIN,40);
+                        	textArea.setFont(font2);
+							textArea.append(receiveMessage.show());
+							button = MainWindow.nameButtonList.get(receiveMessage.getSender());
                         }
                         else {
                             MainWindow.textAreaList.get("World").append(receiveMessage.show());
@@ -60,8 +64,11 @@ public class Display implements Runnable {
                         // if textArea non-exist
                         if ((!MainWindow.textAreaList.containsKey(user.getUserName())) && (!user.getUserName().equals(MainWindow.user.getUserName()))) {
                             TextArea textArea = new TextArea();
+							Font font3 = new Font(Font.MONOSPACED,Font.PLAIN,40);
+                        	textArea.setFont(font3);
+
                             textArea.setBounds(MainWindow.screenWidth/100, MainWindow.screenHeight*15/100,
-                                MainWindow.screenWidth*2/3, MainWindow.screenHeight*60/100);
+                      		MainWindow.screenWidth*2/3, MainWindow.screenHeight*60/100);
                             textArea.setEditable(false);
                             textArea.setVisible(false);
                             mainWindow.add(textArea);
