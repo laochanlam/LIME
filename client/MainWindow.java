@@ -64,7 +64,7 @@ public class MainWindow extends JFrame implements ActionListener{
         textAreaList = new HashMap<String, TextArea>();
 
         // Friend List
-        friendList = new Panel();
+        friendList = new Panel(new GridLayout(20, 20));
         nameButtonList = new HashMap<String, JButton>();
         friendList.setBounds(screenWidth*75/100,screenHeight*5/100, screenWidth*4/30,screenHeight*17/20);
         friendList.setBackground(Color.BLACK);

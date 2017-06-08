@@ -79,9 +79,9 @@ public class Display implements Runnable {
                             /**
                              * Cayon real panel here.
                              */
-                            mainWindow.friendList = new Panel();
-                            mainWindow.friendList.setBounds(1100, 25, 230, 700);
-                            mainWindow.friendList.setBackground(Color.BLACK);
+                            mainWindow.friendList = new Panel(new GridLayout(20, 20));
+                            mainWindow.friendList.setBounds(1000, 35, 300, 700);
+
                             mainWindow.add(mainWindow.friendList);
                             MainWindow.nameButtonList.clear();
 
