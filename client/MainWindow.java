@@ -39,7 +39,7 @@ public class MainWindow extends JFrame implements ActionListener{
         setLayout(null);
 		
 		//backgound colour
-		getContentPane().setBackground(new Color(204,255,153));
+		// getContentPane().setBackground(new Color(204,255,153));
 
 		//get screen size
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -84,7 +84,7 @@ public class MainWindow extends JFrame implements ActionListener{
         textArea.setVisible(false);
         textArea.setEditable(false);
         friendList.add(textArea);
-        textAreaList.put("all", textArea);
+        textAreaList.put("World", textArea);
         this.add(textArea);
 
         String sender = user.getUserName();
@@ -117,7 +117,7 @@ public class MainWindow extends JFrame implements ActionListener{
                     if (!context.equals("") && receiver != null) {
                         try {
                             Message message = new Message(context, sender, receiver);
-                            if (!message.getReceiver().equals("all"))
+                            if (!message.getReceiver().equals("World"))
                                 textAreaList.get(message.getReceiver()).append(message.show());
                             serverOutput.writeObject(message);
                             System.out.println("I am writing this : \n" + message.getInfo());

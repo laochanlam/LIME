@@ -33,7 +33,7 @@ public class Server {
     public static void forward(WrapObject obj){
         switch(obj.objectType) {
             case (WrapObject.MESSAGE):
-                if (!obj.msg.getReceiver().equals("all")) {
+                if (!obj.msg.getReceiver().equals("World")) {
                     Chat receiveChat = onlineList.get(obj.msg.getReceiver());
                     receiveChat.write(obj);
                 } else {

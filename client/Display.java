@@ -33,13 +33,13 @@ public class Display implements Runnable {
                         
                         // Make it red
                         JButton button;
-                        if (!receiveMessage.getReceiver().equals("all")) {
+                        if (!receiveMessage.getReceiver().equals("World")) {
                             MainWindow.textAreaList.get(receiveMessage.getSender()).append(receiveMessage.show());
                             button = MainWindow.nameButtonList.get(receiveMessage.getSender());
                         }
                         else {
-                            MainWindow.textAreaList.get("all").append(receiveMessage.show());
-                            button = MainWindow.nameButtonList.get("all");
+                            MainWindow.textAreaList.get("World").append(receiveMessage.show());
+                            button = MainWindow.nameButtonList.get("World");
                         }
 
                         
@@ -84,9 +84,9 @@ public class Display implements Runnable {
                             MainWindow.nameButtonList.clear();
 
                             // BoardCast Button
-                            JButton btn = new JButton("all");
-                            MainWindow.nameButtonList.put("all", btn);
-                            btn.addActionListener(new nameButtonHandler("all"));
+                            JButton btn = new JButton("World");
+                            MainWindow.nameButtonList.put("World", btn);
+                            btn.addActionListener(new nameButtonHandler("World"));
                             mainWindow.friendList.add(btn);
                             mainWindow.friendList.revalidate();
 
