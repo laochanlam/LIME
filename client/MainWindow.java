@@ -6,6 +6,7 @@ import java.net.Socket;
 import java.awt.*;
 import javax.swing.*;
 import java.awt.Toolkit;
+import java.util.*;
 
 import server.Chat;
 
@@ -15,15 +16,23 @@ public class MainWindow extends JFrame implements ActionListener{
     private ObjectOutputStream serverOutput;
     private ObjectInputStream serverInput;
 
-    public static int counter;
+    public static User user;
     public static TextField textField;
     public static JLabel profileLabel;
     public static TextArea mainTextArea;
     public static Panel friendList;
-    public static Panel emptyFriendList;
+    public static Map<String,TextArea> textAreaList; 
+
+
+    public static int screenHeight;
+    public static int screenWidth;
+    
+
+    public static String receiver;
 
     public MainWindow(User user) {
         super("LIME");
+        this.user = user;
         setExtendedState(JFrame.MAXIMIZED_BOTH); // Full Screen Size
         
         setLayout(null);
@@ -37,8 +46,8 @@ public class MainWindow extends JFrame implements ActionListener{
 		//the screen width
 		screenSize.getWidth();
 
-		int screenHeight = screenSize.height;
-		int screenWidth = screenSize.width;
+		screenHeight = screenSize.height;
+		screenWidth = screenSize.width;
 
 		System.out.println("screenHeight="+screenHeight);
 		System.out.println("screenWidth="+screenWidth);
@@ -54,10 +63,7 @@ public class MainWindow extends JFrame implements ActionListener{
         this.add(profileLabel);
 
         // Chat-Frame
-        mainTextArea = new TextArea();
-        mainTextArea.setBounds(screenWidth/100,screenHeight*15/100,screenWidth*2/3,screenHeight*60/100);
-        mainTextArea.setEditable(false);
-        this.add(mainTextArea);
+        textAreaList = new HashMap<String, TextArea>();
 
         // Friend List
         friendList = new Panel();
@@ -65,16 +71,7 @@ public class MainWindow extends JFrame implements ActionListener{
         friendList.setBackground(Color.BLACK);
         this.add(friendList);
 
-        //Set a empty list.
-        emptyFriendList = friendList;
-
-        String receiver;
-
         String sender = user.getUserName();
-        if (sender.equals("lam"))
-            receiver = "jack";
-        else
-            receiver = "lam";
 
         try {
             // Socket connectionSock = new Socket("140.116.245.244", 8787);
@@ -104,6 +101,7 @@ public class MainWindow extends JFrame implements ActionListener{
 
                     try {
                         Message message = new Message(context, sender, receiver);
+                        textAreaList.get(message.getReceiver()).append(message.show());
                         serverOutput.writeObject(message);
                         System.out.println("I am writing this : \n" + message.getInfo());
                     } catch (Exception e) {

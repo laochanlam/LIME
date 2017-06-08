@@ -92,7 +92,7 @@ public class Chat implements Runnable {
 
                 // Forward to whom you talk to.
                 sendObject = new WrapObject(message);
-                clientOutput.writeObject(sendObject);
+                // clientOutput.writeObject(sendObject);
                 Server.forward(sendObject);
 
             }
