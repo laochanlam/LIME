@@ -80,7 +80,7 @@ public class Display implements Runnable {
                              * Cayon real panel here.
                              */
                             mainWindow.friendList = new Panel(new GridLayout(20, 20));
-                            mainWindow.friendList.setBounds(1000, 35, 300, 700);
+                            mainWindow.friendList.setBounds(MainWindow.screenWidth-MainWindow.screenWidth*7/30,MainWindow.screenHeight*5/100,MainWindow.screenWidth*4/30, MainWindow.screenHeight*17/20);
 
                             mainWindow.add(mainWindow.friendList);
                             MainWindow.nameButtonList.clear();
