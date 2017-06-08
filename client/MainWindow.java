@@ -5,7 +5,7 @@ import java.io.*;
 import java.net.Socket;
 import java.awt.*;
 import javax.swing.*;
-import java.awt.Toolkit;
+
 import java.util.*;
 
 import server.Chat;
@@ -52,9 +52,10 @@ public class MainWindow extends JFrame implements ActionListener{
 
 		System.out.println("screenHeight="+screenHeight);
 		System.out.println("screenWidth="+screenWidth);
+        
 		
         //Type Field
-        textField = new TextField("New");
+        textField = new TextField("");
         textField.setBounds(screenWidth/100,screenHeight*80/100,screenWidth*2/3,screenHeight/10);
         this.add(textField);
 
@@ -73,11 +74,21 @@ public class MainWindow extends JFrame implements ActionListener{
         friendList.setBackground(Color.BLACK);
         this.add(friendList);
 
+        //BoardCast textArea
+        TextArea textArea = new TextArea();
+        textArea.setBounds(screenWidth/100, screenHeight*15/100,
+        screenWidth*2/3, screenHeight*60/100);
+        textArea.setVisible(false);
+        textArea.setEditable(false);
+        friendList.add(textArea);
+        textAreaList.put("all", textArea);
+        this.add(textArea);
+
         String sender = user.getUserName();
 
         try {
-            // Socket connectionSock = new Socket("140.116.245.244", 8787);
-            Socket connectionSock = new Socket("127.0.0.1", 8787);
+            Socket connectionSock = new Socket("140.116.245.244", 8787);
+            // Socket connectionSock = new Socket("127.0.0.1", 8787);
             serverOutput = new ObjectOutputStream(connectionSock.getOutputStream());
             serverInput = new ObjectInputStream(connectionSock.getInputStream());
             
@@ -100,17 +111,19 @@ public class MainWindow extends JFrame implements ActionListener{
                 if (keyEvent.getKeyCode() == KeyEvent.VK_ENTER) {
                     String context = textField.getText();
                     textField.setText("");
+                    if (!context.equals("") && receiver != null) {
+                        try {
+                            Message message = new Message(context, sender, receiver);
+                            if (!message.getReceiver().equals("all"))
+                                textAreaList.get(message.getReceiver()).append(message.show());
+                            serverOutput.writeObject(message);
+                            System.out.println("I am writing this : \n" + message.getInfo());
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
 
-                    try {
-                        Message message = new Message(context, sender, receiver);
-                        textAreaList.get(message.getReceiver()).append(message.show());
-                        serverOutput.writeObject(message);
-                        System.out.println("I am writing this : \n" + message.getInfo());
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                        System.out.println("[Textfield] Enter\n");
                     }
-
-                    System.out.println("[Textfield] Enter\n");
                 }
             }
 

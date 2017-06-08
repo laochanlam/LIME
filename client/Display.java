@@ -4,6 +4,8 @@ import java.net.*;
 import java.awt.*;
 import java.io.*;
 import java.util.*;
+
+import javax.net.ssl.ExtendedSSLSession;
 import javax.swing.*;
 
 import server.Chat;
@@ -28,14 +30,25 @@ public class Display implements Runnable {
                     case (WrapObject.MESSAGE):
                         Message receiveMessage = receiveObject.msg;
                         System.out.println("I am receiving this : \n" + receiveMessage.getInfo());
-                        MainWindow.textAreaList.get(receiveMessage.getSender()).append(receiveMessage.show());
-                        System.out.print(MainWindow.nameButtonList.get(receiveMessage.getSender()));
-                        JButton button = MainWindow.nameButtonList.get(receiveMessage.getSender());
+                        
+                        // Make it red
+                        JButton button;
+                        if (!receiveMessage.getReceiver().equals("all")) {
+                            MainWindow.textAreaList.get(receiveMessage.getSender()).append(receiveMessage.show());
+                            button = MainWindow.nameButtonList.get(receiveMessage.getSender());
+                        }
+                        else {
+                            MainWindow.textAreaList.get("all").append(receiveMessage.show());
+                            button = MainWindow.nameButtonList.get("all");
+                        }
+
+                        
 
                         /** 
                         * Cayon when receiving Message
                         */
-                        button.setForeground(Color.RED);
+                        if (!receiveMessage.getSender().equals(MainWindow.user.getUserName()))
+                            button.setForeground(Color.RED);
 
 
                         break;
@@ -61,11 +74,21 @@ public class Display implements Runnable {
                         // Reset friend list here.
 
                         if (receiveObject.isFirst == 1) {
+                            // BoardCast Button
+
                             mainWindow.remove(mainWindow.friendList);
                             mainWindow.friendList = new Panel();
                             mainWindow.friendList.setBounds(1100, 25, 230, 700);
                             mainWindow.friendList.setBackground(Color.BLACK);
                             mainWindow.add(mainWindow.friendList);
+                            MainWindow.nameButtonList.clear();
+
+                            // BoardCast Button
+                            JButton btn = new JButton("all");
+                            MainWindow.nameButtonList.put("all", btn);
+                            btn.addActionListener(new nameButtonHandler("all"));
+                            mainWindow.friendList.add(btn);
+                            mainWindow.friendList.revalidate();
 
                             JButton nameButton = new JButton(user.getUserName());
                             // Add to name button list.
@@ -81,6 +104,7 @@ public class Display implements Runnable {
                             mainWindow.friendList.add(nameButton);
                             mainWindow.friendList.revalidate();
                         }
+
                         break;
                 }
             }
@@ -98,22 +122,28 @@ public class Display implements Runnable {
             MainWindow.receiver = userName;
             System.out.println("[Receiver]Receiver changed to " + userName);
 
-            Iterator iterator = MainWindow.textAreaList.entrySet().iterator();
+                Iterator iterator = MainWindow.textAreaList.entrySet().iterator();
 
-            while (iterator.hasNext()) {
-                // each text Area
-                Map.Entry mapEntry = (Map.Entry) iterator.next();
-                TextArea textArea = (TextArea) mapEntry.getValue();
-                textArea.setVisible(false);
-            }
-            TextArea textArea = (TextArea) MainWindow.textAreaList.get(userName);
-            textArea.setVisible(true);
-            Button btn = MainWindow.nameButtonList.get(userName);
-            
-            /** 
-             * Cayon when click the button
-            */
-            btn.setForeground(Color.BLACK);
+                while (iterator.hasNext()) {
+                    // each text Area
+                    Map.Entry mapEntry = (Map.Entry) iterator.next();
+                    TextArea textArea = (TextArea) mapEntry.getValue();
+                    textArea.setVisible(false);
+                }
+
+                if (!userName.equals(MainWindow.user.getUserName())) {
+                    TextArea textArea = (TextArea) MainWindow.textAreaList.get(userName);
+                    System.out.println(textArea);
+                    textArea.setVisible(true);
+                } else
+                    System.out.println("Because " + userName + " = " + MainWindow.user.getUserName() + " , so no screen.");
+
+                JButton btn = MainWindow.nameButtonList.get(userName);
+
+                /** 
+                 * Cayon when click the button
+                */
+                btn.setForeground(Color.BLACK);
         }
     }
 }

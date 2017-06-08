@@ -1,6 +1,9 @@
 package server;
 
 import java.util.*;
+
+import javax.net.ssl.ExtendedSSLSession;
+
 import java.net.*;
 import java.io.*;
 import client.*;
@@ -30,9 +33,24 @@ public class Server {
     public static void forward(WrapObject obj){
         switch(obj.objectType) {
             case (WrapObject.MESSAGE):
-            Chat receiveChat = onlineList.get(obj.msg.getReceiver());
-            // Get Stream
-            receiveChat.write(obj);
+                if (!obj.msg.getReceiver().equals("all")) {
+                    Chat receiveChat = onlineList.get(obj.msg.getReceiver());
+                    receiveChat.write(obj);
+                } else {
+                    
+
+
+                    // Really BoardCast here
+                    Iterator iterator = Server.onlineList.entrySet().iterator();
+
+                    while (iterator.hasNext()) {
+                        // each stream
+                        Map.Entry mapEntry = (Map.Entry) iterator.next();
+                        Chat chat = (Chat) mapEntry.getValue();
+                        chat.write(obj);
+                    }
+                }
+                
             break;
             case (WrapObject.USER):
 
