@@ -59,9 +59,8 @@ public class LoginWindow extends JFrame implements ActionListener {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		try{	
-            Image img = ImageIO.read(new File("client/image/LOGO.png"));
-			img.getScaledInstance(400,400,java.awt.Image.SCALE_SMOOTH);
-			ImageIcon icon = new ImageIcon(newimg);
+            Image img = ImageIO.read(new File("client/image/LOGO.png")).getScaledInstance(400,400,java.awt.Image.SCALE_SMOOTH);
+			ImageIcon icon = new ImageIcon(img);
 			iconLabel =new JLabel(icon);
 			iconLabel.setBounds(screenWidth/2-300,screenHeight/2-400,500,500);
 		}catch(Exception e){
