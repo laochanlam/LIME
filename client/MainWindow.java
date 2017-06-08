@@ -37,21 +37,14 @@ public class MainWindow extends JFrame implements ActionListener{
         setExtendedState(JFrame.MAXIMIZED_BOTH); // Full Screen Size
         
         setLayout(null);
-		
-		//backgound colour
-		// getContentPane().setBackground(new Color(204,255,153));
 
 		//get screen size
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        
-		//the screen height
 		screenSize.getHeight();
-		
-		//the screen width
 		screenSize.getWidth();
-
 		screenHeight = screenSize.height;
 		screenWidth = screenSize.width;
+
 
 		System.out.println("screenHeight="+screenHeight);
 		System.out.println("screenWidth="+screenWidth);
@@ -139,13 +132,7 @@ public class MainWindow extends JFrame implements ActionListener{
             }
         });
 
-    }
-    
-    // public static void resetFriendList() {
-    //     this.remove(friendList);
-    //     this.add(emptyFriendList);
-    // }
-    public void showup(){
+    }    public void showup(){
         setVisible(true);
     }
 

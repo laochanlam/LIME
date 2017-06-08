@@ -6,12 +6,14 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.event.*;
 import java.net.URL;
+import javax.imageio.*;
+import java.io.*;
 
 public class LoginWindow extends JFrame implements ActionListener {
     JButton loginButton;
     JButton registerButton;
     JTextField userNameTextField;
-    JTextField passwordTextField;
+    JPasswordField passwordTextField;
 	JLabel iconLabel;
 
     public LoginWindow() {
@@ -33,7 +35,7 @@ public class LoginWindow extends JFrame implements ActionListener {
         userNameTextField = new JTextField(30);
 		userNameTextField.setBounds(screenWidth/2-300,screenHeight/2+100,500,35);
 
-        passwordTextField = new JTextField(30);
+        passwordTextField = new JPasswordField(30);
         passwordTextField.setBounds(screenWidth/2-300,screenHeight/2+100+50,500,35);
 
 		JLabel userNameLabel = new JLabel("Username");
@@ -57,10 +59,9 @@ public class LoginWindow extends JFrame implements ActionListener {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		try{	
-			ImageIcon icon = new ImageIcon(new URL("http://i.imgur.com/Y2jnrJz.jpg"));
-			Image img = icon.getImage();
-			Image newimg = img.getScaledInstance(400,400,java.awt.Image.SCALE_SMOOTH);
-			icon = new ImageIcon(newimg);
+            Image img = ImageIO.read(new File("client/image/LOGO.png"));
+			img.getScaledInstance(400,400,java.awt.Image.SCALE_SMOOTH);
+			ImageIcon icon = new ImageIcon(newimg);
 			iconLabel =new JLabel(icon);
 			iconLabel.setBounds(screenWidth/2-300,screenHeight/2-400,500,500);
 		}catch(Exception e){

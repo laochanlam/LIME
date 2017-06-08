@@ -74,9 +74,11 @@ public class Display implements Runnable {
                         // Reset friend list here.
 
                         if (receiveObject.isFirst == 1) {
-                            // BoardCast Button
 
                             mainWindow.remove(mainWindow.friendList);
+                            /**
+                             * Cayon real panel here.
+                             */
                             mainWindow.friendList = new Panel();
                             mainWindow.friendList.setBounds(1100, 25, 230, 700);
                             mainWindow.friendList.setBackground(Color.BLACK);
@@ -90,6 +92,9 @@ public class Display implements Runnable {
                             mainWindow.friendList.add(btn);
                             mainWindow.friendList.revalidate();
 
+                            /**
+                             * Cayon real button here.
+                             */
                             JButton nameButton = new JButton(user.getUserName());
                             // Add to name button list.
                             MainWindow.nameButtonList.put(user.getUserName(), nameButton);
