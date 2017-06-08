@@ -29,13 +29,21 @@ public class Display implements Runnable {
                         Message receiveMessage = receiveObject.msg;
                         System.out.println("I am receiving this : \n" + receiveMessage.getInfo());
                         MainWindow.textAreaList.get(receiveMessage.getSender()).append(receiveMessage.show());
+                        System.out.print(MainWindow.nameButtonList.get(receiveMessage.getSender()));
+                        JButton button = MainWindow.nameButtonList.get(receiveMessage.getSender());
+
+                        /** 
+                        * Cayon when receiving Message
+                        */
+                        button.setForeground(Color.RED);
+
+
                         break;
                     case (WrapObject.USER):
                         User user = receiveObject.user;
                         System.out.println("[Someone Online]");
                         // Add Friend to Friend List 
 
-                        
                         // if textArea non-exist
                         if ((!MainWindow.textAreaList.containsKey(user.getUserName())) && (!user.getUserName().equals(MainWindow.user.getUserName()))) {
                             TextArea textArea = new TextArea();
@@ -60,11 +68,15 @@ public class Display implements Runnable {
                             mainWindow.add(mainWindow.friendList);
 
                             JButton nameButton = new JButton(user.getUserName());
+                            // Add to name button list.
+                            MainWindow.nameButtonList.put(user.getUserName(), nameButton);
                             nameButton.addActionListener(new nameButtonHandler(user.getUserName()));
                             mainWindow.friendList.add(nameButton);
                             mainWindow.friendList.revalidate();
                         } else {
                             JButton nameButton = new JButton(user.getUserName());
+                            // Add to name button list.
+                            MainWindow.nameButtonList.put(user.getUserName(), nameButton);
                             nameButton.addActionListener(new nameButtonHandler(user.getUserName()));
                             mainWindow.friendList.add(nameButton);
                             mainWindow.friendList.revalidate();
@@ -96,6 +108,12 @@ public class Display implements Runnable {
             }
             TextArea textArea = (TextArea) MainWindow.textAreaList.get(userName);
             textArea.setVisible(true);
+            Button btn = MainWindow.nameButtonList.get(userName);
+            
+            /** 
+             * Cayon when click the button
+            */
+            btn.setForeground(Color.BLACK);
         }
     }
 }

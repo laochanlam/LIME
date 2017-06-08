@@ -22,6 +22,7 @@ public class MainWindow extends JFrame implements ActionListener{
     public static TextArea mainTextArea;
     public static Panel friendList;
     public static Map<String,TextArea> textAreaList; 
+    public static Map<String, JButton> nameButtonList;
 
 
     public static int screenHeight;
@@ -67,6 +68,7 @@ public class MainWindow extends JFrame implements ActionListener{
 
         // Friend List
         friendList = new Panel();
+        nameButtonList = new HashMap<String, JButton>();
         friendList.setBounds(screenWidth*70/100,screenHeight*5/100, screenWidth*7/30,screenHeight*17/20);
         friendList.setBackground(Color.BLACK);
         this.add(friendList);
